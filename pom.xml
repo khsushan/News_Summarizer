@@ -7,6 +7,12 @@
     <groupId>News_Summarizer</groupId>
     <artifactId>News_Summarizer</artifactId>
     <version>1.0</version>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.7.1</version>
+        </dependency>
+    </dependencies>
 
 </project>
