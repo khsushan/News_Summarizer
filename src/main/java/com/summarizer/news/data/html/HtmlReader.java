@@ -30,8 +30,7 @@ public class HtmlReader {
             }
 
         }
-        System.out.println(content);
-        return null;
+        return content.toString();
     }
 
     public static void main(String[] args) {
