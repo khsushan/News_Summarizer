@@ -1,9 +1,6 @@
 package com.summarizer.news.data.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,7 +31,11 @@ public class GoogleNewsAPIClient {
 
         JsonParser  jsonParser =  new JsonParser();
         JsonObject responseObj = (JsonObject) jsonParser.parse(builder.toString());
-        System.out.println(responseObj.toString());
+        JsonObject responseDataObj = responseObj.get("responseData").getAsJsonObject();
+        JsonArray results = responseDataObj.get("results").getAsJsonArray();
+        JsonObject resultJOB = results.get(0).getAsJsonObject();
+        String newsUrl = resultJOB.get("unescapedUrl").getAsString();
+        System.out.println(newsUrl);
     }
 
     public static void main(String[] args) {
