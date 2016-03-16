@@ -1,5 +1,6 @@
 package com.summarizer.news.data.html;
 
+import com.summarizer.news.sentence.extractor.SentenceExtractor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,7 +14,7 @@ import java.io.IOException;
  */
 public class HtmlReader {
 
-    public static String readHTML(String link) throws IOException {
+    public static StringBuilder readHTML(String link) throws IOException {
         Document document = Jsoup.connect(link).get();
         String title = document.title();
         Elements paragraphs = document.body().select("p");
@@ -30,13 +31,18 @@ public class HtmlReader {
             }
 
         }
-        return content.toString();
+        return content;
     }
 
     public static void main(String[] args) {
         try {
             //readHTML("http://www.dailynews.lk/?q=2016/03/09/local/thai-deputy-prime-minister-meets-foreign-minister");
-            readHTML("http://www.dailynews.lk/?q=2016/03/09/local/thai-deputy-prime-minister-meets-foreign-minister");
+            StringBuilder htmlContent = readHTML("http://www.dailynews.lk/?q=2016/03/09/local/" +
+                    "thai-deputy-prime-minister-meets-foreign-minister");
+            SentenceExtractor sentenceExtractor = new SentenceExtractor();
+            String[] extractedSenetence = sentenceExtractor.getExtractedWordInGivenDocument(htmlContent);
+            System.out.println(extractedSenetence);
+
             //readHTML("http://www.nytimes.com/2016/03/10/world/middleeast/obama-criticizes-the-free-riders-among-americas-allies.html?_r=0");
             //readHTML("http://www.dailynews.lk/?q=2016/03/10/local/basil-rajapaksa-released-bail");
         } catch (IOException e) {
