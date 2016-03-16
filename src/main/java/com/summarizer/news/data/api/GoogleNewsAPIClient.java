@@ -5,7 +5,6 @@ import com.google.gson.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -15,20 +14,8 @@ import java.net.URLConnection;
 public class GoogleNewsAPIClient {
 
     public static void getNewsUrls(String keyword) throws IOException {
-
-        URL url = new URL("https://ajax.googleapis.com/ajax/services/search/news?" +
+        StringBuilder builder = API_Client.httpClient("https://ajax.googleapis.com/ajax/services/search/news?" +
                 "v=1.0&q="+keyword+"&userip=INSERT-USER-IP");
-        URLConnection connection = url.openConnection();
-        //connection.addRequestProperty("Referer");
-        connection.addRequestProperty("method","GET");
-
-        String line;
-        StringBuilder builder = new StringBuilder();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        while((line = reader.readLine()) != null) {
-            builder.append(line);
-        }
-
         JsonParser  jsonParser =  new JsonParser();
         JsonObject responseObj = (JsonObject) jsonParser.parse(builder.toString());
         JsonObject responseDataObj = responseObj.get("responseData").getAsJsonObject();
