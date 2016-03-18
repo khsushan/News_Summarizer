@@ -41,7 +41,7 @@ public class TF_IDF_Calculator {
                 }
             }
         }
-        return 1 + Math.log(documents.size() / count);
+        return Math.log(documents.size() / 1+count);
     }
 
     public ArrayList<Double[]> calculateTF_IDF_valueOfAllDocuments(List<String[]> documents){
