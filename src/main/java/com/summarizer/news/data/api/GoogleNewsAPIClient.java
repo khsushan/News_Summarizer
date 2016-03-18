@@ -13,16 +13,22 @@ import java.net.URLConnection;
  */
 public class GoogleNewsAPIClient {
 
-    public static void getNewsUrls(String keyword) throws IOException {
+    /**
+     * This method is use as client for google news api
+     * @param keyword- keyword which is need to search in google news api
+     *
+     * */
+    public static JsonArray getNewsUrls(String keyword) throws IOException {
         StringBuilder builder = API_Client.httpClient("https://ajax.googleapis.com/ajax/services/search/news?" +
                 "v=1.0&q="+keyword+"&userip=INSERT-USER-IP");
         JsonParser  jsonParser =  new JsonParser();
         JsonObject responseObj = (JsonObject) jsonParser.parse(builder.toString());
         JsonObject responseDataObj = responseObj.get("responseData").getAsJsonObject();
         JsonArray results = responseDataObj.get("results").getAsJsonArray();
-        JsonObject resultJOB = results.get(0).getAsJsonObject();
-        String newsUrl = resultJOB.get("unescapedUrl").getAsString();
-        System.out.println(newsUrl);
+        return results;
+//        JsonObject resultJOB = results.get(0).getAsJsonObject();
+//        String newsUrl = resultJOB.get("unescapedUrl").getAsString();
+//        System.out.println(newsUrl);
     }
 
     public static void main(String[] args) {
