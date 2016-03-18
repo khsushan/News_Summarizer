@@ -37,6 +37,10 @@ public class SentenceExtractor {
         return  this.allWords;
     }
 
+    public  List<String> getAllSentences(){
+        return  this.allSentences;
+    }
+
     public void extractSentenceInDocument(StringBuilder builder){
         String document  =  builder.toString();
         BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.US);
@@ -48,7 +52,6 @@ public class SentenceExtractor {
              end != BreakIterator.DONE;
              start = end, end = iterator.next()) {
              sentence =  document.substring(start,end);
-             System.out.println(sentence+"==========================");
              if(!allSentences.contains(sentence)){
                 allSentences.add(sentence);
              }
