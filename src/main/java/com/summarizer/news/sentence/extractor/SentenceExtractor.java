@@ -17,16 +17,19 @@ public class SentenceExtractor {
             new ArrayList<String>(); //this all words set will hold all the unique words in wordsInDocuments
     private List<String> allSentences = new ArrayList<String>();
 
-    public  String[] getExtractedWordInGivenDocument(StringBuilder builder){
-        String[] tokenizedTerms = builder.toString().
-                replaceAll("[\\W&&[^\\s]]", "").split("\\W+");//to get individual terms
-        for (String term : tokenizedTerms) {
-            if (!allWords.contains(term)) {  //avoid duplicate entry
-                allWords.add(term);
+    public  void getExtractedWordInGivenDocument(StringBuilder builder){
+        extractSentenceInDocument(builder);
+        for(String sentence : allSentences){
+            String[] tokenizedTerms = sentence.toString().
+                    replaceAll("[\\W&&[^\\s]]", "").split("\\W+");//to get individual terms
+            for (String term : tokenizedTerms) {
+                if (!allWords.contains(term)) {  //avoid duplicate entry
+                    allWords.add(term);
+                }
+
             }
+            wordsInDocuments.add(tokenizedTerms);
         }
-        wordsInDocuments.add(tokenizedTerms);
-        return tokenizedTerms;
     }
 
     public  List<String[]> getWordsInDocuments(){
