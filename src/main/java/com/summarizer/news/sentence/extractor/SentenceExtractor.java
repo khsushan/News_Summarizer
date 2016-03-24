@@ -1,8 +1,13 @@
 package com.summarizer.news.sentence.extractor;
 
 import com.summarizer.news.data.html.HtmlReader;
+import edu.stanford.nlp.ling.HasWord;
+import edu.stanford.nlp.ling.Sentence;
+import edu.stanford.nlp.process.DocumentPreprocessor;
 
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +23,12 @@ public class SentenceExtractor {
     private List<String> allSentences = new ArrayList<String>();
 
     public  void getExtractedWordInGivenDocument(StringBuilder builder){
-        extractSentenceInDocument(builder);
-        for(String sentence : allSentences){
-            String[] tokenizedTerms = sentence.toString().
+        Reader reader = new StringReader(builder.toString());
+        DocumentPreprocessor dp = new DocumentPreprocessor(reader);
+        for (List<HasWord> sentence : dp) {
+            String sentenceString = Sentence.listToString(sentence);
+            allSentences.add(sentenceString.toString());
+            String[] tokenizedTerms = sentenceString.toString().
                     replaceAll("[\\W&&[^\\s]]", "").split("\\W+");//to get individual terms
             for (String term : tokenizedTerms) {
                 if (!allWords.contains(term)) {  //avoid duplicate entry
@@ -44,36 +52,4 @@ public class SentenceExtractor {
         return  this.allSentences;
     }
 
-    public void extractSentenceInDocument(StringBuilder builder){
-        String document  =  builder.toString();
-        BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.US);
-        iterator.setText(document);
-        String sentence = "";
-        //String[] sentencesInDocument = document.split("(?<=[a-z])\\.\\s+");
-        int start = iterator.first();
-        for (int end = iterator.next();
-             end != BreakIterator.DONE;
-             start = end, end = iterator.next()) {
-             sentence =  document.substring(start,end);
-             if(!allSentences.contains(sentence)){
-                allSentences.add(sentence);
-             }
-        }
-    }
-
-//    public static void main(String[] args) {
-//
-//        try {
-////            StringBuilder stringBuilder = HtmlReader.readHTML("http://www.dailynews.lk/?q=2016/03/09/local/" +
-////                    "thai-deputy-prime-minister-meets-foreign-minister");
-//            StringBuilder stringBuilder = HtmlReader.
-//                    readHTML("http://www.espncricinfo.com/icc-world-twenty20-2016/content/story/984837.html");
-//
-//            SentenceExtractor sentenceExtractor =  new SentenceExtractor();
-//            sentenceExtractor.extractSentenceInDocument(stringBuilder);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
 }
