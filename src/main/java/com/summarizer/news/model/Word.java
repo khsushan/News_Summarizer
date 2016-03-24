@@ -6,6 +6,7 @@ package com.summarizer.news.model;
 public class Word {
     private String value;
     private double tf_idf_value;
+    private double tf_value;
     private double idf_value;
     private double centorid;
     private double count;
@@ -51,5 +52,23 @@ public class Word {
 
     public void setCount(double count) {
         this.count = count;
+    }
+
+
+    public double getTf_value() {
+        return tf_value;
+    }
+
+    public void setTf_value(double tf_value) {
+        this.tf_value = tf_value;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof  Word){
+            return ((Word)obj).getValue().equals(this.getValue());
+        }else{
+           return  false;
+        }
     }
 }
